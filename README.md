@@ -1,4 +1,10 @@
-# Simplex HTTP Server
+Initial Release
+We are excited to announce the first release of simplex_http_server!
+
+Features
+Static File Serving: Serve static files including HTML, CSS, JavaScript, images, fonts, audio, video, JSON, PDFs, and ICO files from the current working directory.
+Configurable Port: Easily configure the port via command-line arguments.
+Command-Line Interface: Simple and intuitive CLI powered by clap.# Simplex HTTP Server
 
 A simple HTTP server written in Rust using Hyper and Clap. This server serves static files from the current working directory.
 
@@ -27,7 +33,7 @@ Run the server from any directory to serve files from that directory:
 
 ```sh
 cd /path/to/your/static/files
-simplex_http_server
+simplex
 ```
 
 You can also specify the port using the --port flag:
