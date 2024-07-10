@@ -136,8 +136,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let root_dir = {
         #[cfg(debug_assertions)]
         {
-            // In debug mode, use the "html" directory relative to the current directory
-            std::env::current_dir()?.join("html")
+            // In debug mode, use the "html" directory if it exists
+            let dev_dir = std::env::current_dir()?.join("html");
+            if std::fs::metadata(&dev_dir).is_ok() {
+                dev_dir
+            } else {
+                // Fall back to the current directory if "html" does not exist
+                std::env::current_dir()?
+            }
         }
         #[cfg(not(debug_assertions))]
         {
