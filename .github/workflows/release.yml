@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main # Triggers the workflow on push to the main branch
+      - main
 
 jobs:
   build:
@@ -27,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: main-${{ github.sha }}
-          release_name: Release main-${{ github.sha }}
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}_version
           draft: false
           prerelease: false
 
