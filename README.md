@@ -34,6 +34,7 @@ You can also specify the port using the --port flag:
 
 `simplex --port 8080`
 ## Command-line Arguments
+`--help, -h`: Show help options
 `--port, -p`: Port to bind the server to (default is 3000).
 
 ## Example
