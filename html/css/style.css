@@ -1,4 +1,39 @@
-.demo {
-  background: blue;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e90ff, #00ced1);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0;
+}
+
+.indicator {
+  outline-color: white;
+  outline-width: 2px;
+  outline-style: solid;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  background-color: #32cd32;
+  border-radius: 50%;
+}
+
+#port-info {
+  background: darkgreen;
+  border-radius: 50px;
+  color: white;
+  font-size: 1.2em;
+  margin-top: 20px;
 }

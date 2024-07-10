@@ -1,19 +1,21 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simplex HTTP Server</title>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title></title>
-  <link href="css/style.css" rel="stylesheet" />
-</head>
-
-<body>
-  <h1 class="demo">Web Site</h1>
-  <script src="main.js"></script>
-  <script>
-    log_me("lorem ipsum dolor mit");
-  </script>
-</body>
-
+  <body>
+    <div class="container">
+      <h1>Simplex is running <span class="indicator"></span></h1>
+      <p id="port-info"></p>
+    </div>
+    <script src="main.js"></script>
+    <script>
+      displayPort();
+      log_me("Simplex HTTP Server is running!");
+    </script>
+  </body>
 </html>
