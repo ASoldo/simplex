@@ -1,3 +1,5 @@
+# Simplex
+
 A simple HTTP server written in Rust using Hyper and Clap. This server serves static files from the current working directory.
 
 ## Features
