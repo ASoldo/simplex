@@ -21,12 +21,16 @@ use walkdir::WalkDir;
 #[derive(Parser, Debug)]
 #[command(name = "simplex")]
 struct Args {
+    /// Host to bind the server to
+    #[arg(short = 'a', long, default_value = "127.0.0.1")]
+    host: String,
+
     /// Port to bind the server to
     #[arg(short, long, default_value_t = 3000)]
     port: u16,
 
     /// Enable logging of requested files
-    #[arg(short, long, action = clap::ArgAction::SetTrue, default_value_t=false)]
+    #[arg(short, long, action = clap::ArgAction::SetTrue, default_value_t = false)]
     log: bool,
 }
 
@@ -164,9 +168,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let files = load_files(root_dir).await?;
     let files = Arc::new(RwLock::new(files));
 
-    println!("Server Started on port: {}", args.port);
-    println!("URL: http://127.0.0.1:{}", args.port);
-    let addr = SocketAddr::from(([127, 0, 0, 1], args.port));
+    println!("Server Started on {}:{}", args.host, args.port);
+    println!("URL: http://{}:{}", args.host, args.port);
+    let addr = SocketAddr::new(args.host.parse()?, args.port);
     let listener = TcpListener::bind(addr).await?;
 
     loop {
