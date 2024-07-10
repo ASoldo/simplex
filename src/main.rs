@@ -1,6 +1,6 @@
 use clap::Parser;
 use http_body_util::Full;
-use hyper::body::{Body, Bytes};
+use hyper::body::Bytes;
 use hyper::header::{HeaderValue, CONTENT_TYPE};
 use hyper::server::conn::http1;
 use hyper::service::service_fn;
