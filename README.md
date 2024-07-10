@@ -11,15 +11,15 @@ A simple HTTP server written in Rust using Hyper and Clap. This server serves st
 
 1. **Build the project in release mode:**
 
-    ```sh
-    cargo build --release
-    ```
+   ```sh
+   cargo build --release
+   ```
 
 2. **Move the binary to `/usr/bin` or a subdirectory:**
 
-    ```sh
-    sudo mv target/release/simplex /usr/bin/
-    ```
+   ```sh
+   sudo mv target/release/simplex /usr/bin/
+   ```
 
 ## Usage
 
@@ -33,11 +33,15 @@ simplex
 You can also specify the port using the --port flag:
 
 `simplex --port 8080`
+
 ## Command-line Arguments
+
 `--help, -h`: Show help options
-`--port, -p`: Port to bind the server to (default is 3000).
+`--port, -p`: Port to bind the server to (default is 3000): --port 3001, -p 3003, etc.
+`--log, -l`: Print logs if set
 
 ## Example
+
 Navigate to your static files directory:
 
 `cd /path/to/your/static/files`
@@ -49,6 +53,7 @@ Access your site in a browser:
 Open `http://127.0.0.1:3000` in your web browser.
 
 ## File Types Supported
+
 The server supports the following file types with appropriate MIME types:
 
 `HTML (.html)`

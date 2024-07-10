@@ -24,6 +24,10 @@ struct Args {
     /// Port to bind the server to
     #[arg(short, long, default_value_t = 3000)]
     port: u16,
+
+    /// Enable logging of requested files
+    #[arg(short, long, action = clap::ArgAction::SetTrue, default_value_t=false)]
+    log: bool,
 }
 
 type FileMap = HashMap<String, (String, Bytes)>;
@@ -34,6 +38,7 @@ type FileMap = HashMap<String, (String, Bytes)>;
 ///
 /// * `req` - The incoming HTTP request.
 /// * `files` - An `Arc` to a `RwLock` containing the in-memory file map.
+/// * `log` - A boolean indicating whether logging is enabled.
 ///
 /// # Returns
 ///
@@ -41,6 +46,7 @@ type FileMap = HashMap<String, (String, Bytes)>;
 async fn serve_file(
     req: Request<hyper::body::Incoming>,
     files: Arc<RwLock<FileMap>>,
+    log: bool,
 ) -> Result<Response<Full<Bytes>>, Infallible> {
     let path = req.uri().path().to_string();
     let path = if path == "/" {
@@ -49,7 +55,9 @@ async fn serve_file(
         path
     };
 
-    println!("Request for: {:?}", path);
+    if log {
+        println!("Request for: {:?}", path);
+    }
 
     let files = files.read().await;
 
@@ -157,6 +165,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let files = Arc::new(RwLock::new(files));
 
     println!("Server Started on port: {}", args.port);
+    println!("URL: http://127.0.0.1:{}", args.port);
     let addr = SocketAddr::from(([127, 0, 0, 1], args.port));
     let listener = TcpListener::bind(addr).await?;
 
@@ -164,12 +173,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         let (stream, _) = listener.accept().await?;
         let io = TokioIo::new(stream);
         let files = Arc::clone(&files);
+        let log = args.log;
 
         tokio::task::spawn(async move {
             if let Err(err) = http1::Builder::new()
                 .serve_connection(
                     io,
-                    service_fn(move |req| serve_file(req, Arc::clone(&files))),
+                    service_fn(move |req| serve_file(req, Arc::clone(&files), log)),
                 )
                 .await
             {
