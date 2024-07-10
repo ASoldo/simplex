@@ -1,13 +1,11 @@
-# .github/workflows/release.yml
-
 name: Release
 
 on:
   push:
     # tags:
     #   - "release_*"
-  branches:
-    - main
+    branches:
+      - main
 
 jobs:
   build:
