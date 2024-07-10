@@ -4,8 +4,10 @@ name: Release
 
 on:
   push:
-    tags:
-      - "release_*" # Triggers the workflow on new tags starting with "v"
+    # tags:
+    #   - "release_*"
+  branches:
+    - main
 
 jobs:
   build:
