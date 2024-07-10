@@ -133,12 +133,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let args = Args::parse();
 
     // Set the root directory based on the build type
-    let root_dir = if cfg!(debug_assertions) {
-        // In debug mode, use the "html" directory relative to the current directory
-        std::env::current_dir()?.join("html")
-    } else {
-        // In release mode, use the current working directory
-        std::env::current_dir()?
+    let root_dir = {
+        #[cfg(debug_assertions)]
+        {
+            // In debug mode, use the "html" directory relative to the current directory
+            std::env::current_dir()?.join("html")
+        }
+        #[cfg(not(debug_assertions))]
+        {
+            // In release mode, use the current working directory
+            std::env::current_dir()?
+        }
     };
 
     println!("Loading files from: {:?}", root_dir);
