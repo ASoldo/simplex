@@ -22,7 +22,7 @@ use walkdir::WalkDir;
 #[command(name = "simplex")]
 struct Args {
     /// Host to bind the server to
-    #[arg(short = 'a', long, default_value = "127.0.0.1")]
+    #[arg(short = 'l', long, default_value = "127.0.0.1")]
     host: String,
 
     /// Port to bind the server to
