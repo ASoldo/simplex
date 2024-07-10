@@ -132,8 +132,14 @@ async fn load_files(
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let args = Args::parse();
 
-    // Set the root directory to the current working directory at runtime
-    let root_dir = std::env::current_dir()?;
+    // Set the root directory based on the build type
+    let root_dir = if cfg!(debug_assertions) {
+        // In debug mode, use the "html" directory relative to the current directory
+        std::env::current_dir()?.join("html")
+    } else {
+        // In release mode, use the current working directory
+        std::env::current_dir()?
+    };
 
     println!("Loading files from: {:?}", root_dir);
     let files = load_files(root_dir).await?;
