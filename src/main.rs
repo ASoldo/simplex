@@ -196,10 +196,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use hyper::Request;
     use std::path::PathBuf;
-    use std::sync::Arc;
-    use tokio::sync::RwLock;
 
     #[tokio::test]
     async fn test_load_files() {
