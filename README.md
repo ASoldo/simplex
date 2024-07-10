@@ -1,3 +1,5 @@
+![image](https://github.com/ASoldo/simplex/assets/1175537/cfe7a683-7387-4fc1-b688-8ab3b7223f99)
+
 # Simplex
 
 A simple HTTP server written in Rust using Hyper and Clap. This server serves static files from the current working directory.
