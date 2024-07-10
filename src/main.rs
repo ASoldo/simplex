@@ -1,6 +1,6 @@
 use clap::Parser;
 use http_body_util::Full;
-use hyper::body::Bytes;
+use hyper::body::{Body, Bytes};
 use hyper::header::{HeaderValue, CONTENT_TYPE};
 use hyper::server::conn::http1;
 use hyper::service::service_fn;
@@ -190,5 +190,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 eprintln!("Error serving connection: {:?}", err);
             }
         });
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use hyper::Request;
+    use std::path::PathBuf;
+    use std::sync::Arc;
+    use tokio::sync::RwLock;
+
+    #[tokio::test]
+    async fn test_load_files() {
+        let root_dir = PathBuf::from("./html");
+        let files = load_files(root_dir).await.unwrap();
+
+        assert!(files.contains_key("/index.html"));
+        assert!(files.contains_key("/css/style.css"));
+        assert_eq!(files["/index.html"].0, "text/html");
+        assert_eq!(files["/css/style.css"].0, "text/css");
     }
 }
