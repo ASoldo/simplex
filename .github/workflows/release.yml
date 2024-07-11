@@ -18,7 +18,7 @@ jobs:
         with:
           toolchain: stable
           profile: minimal
-          components: [rustfmt, clippy]
+          components: rustfmt, clippy
 
       - name: Install targets
         run: |
