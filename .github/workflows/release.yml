@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
@@ -19,6 +19,19 @@ jobs:
           toolchain: stable
           profile: minimal
           components: rustfmt, clippy
+
+      - name: Install Android NDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://dl.google.com/android/repository/android-ndk-r23b-linux.zip
+          unzip android-ndk-r23b-linux.zip
+          mv android-ndk-r23b ${HOME}/android-ndk
+          echo "export ANDROID_NDK_HOME=${HOME}/android-ndk" >> $GITHUB_ENV
+          echo "export PATH=${HOME}/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Install cargo-ndk
+        run: cargo install cargo-ndk
 
       - name: Install targets
         run: |
@@ -29,17 +42,17 @@ jobs:
       - name: Build for x86_64
         run: cargo build --release --target x86_64-unknown-linux-gnu
 
-      # - name: Build for aarch64
-      #   run: cargo build --release --target aarch64-linux-android
+      - name: Build for aarch64
+        run: cargo ndk -t aarch64-linux-android build --release
 
       - name: Build for armv7
-        run: cargo build --release --target armv7-linux-androideabi
+        run: cargo ndk -t armv7-linux-androideabi build --release
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: release_${{ github.sha }}
           release_name: simplex_${{ github.sha }}
@@ -56,15 +69,15 @@ jobs:
           asset_name: simplex_x86_64
           asset_content_type: application/octet-stream
 
-      # - name: Upload aarch64 Release Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: target/aarch64-linux-android/release/simplex
-      #     asset_name: simplex_aarch64
-      #     asset_content_type: application/octet-stream
+      - name: Upload aarch64 Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: target/aarch64-linux-android/release/simplex
+          asset_name: simplex_aarch64
+          asset_content_type: application/octet-stream
 
       - name: Upload armv7 Release Asset
         uses: actions/upload-release-asset@v1
