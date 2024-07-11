@@ -1,5 +1,4 @@
-![image](https://github.com/ASoldo/simplex/assets/1175537/5f12ed14-f006-4aa7-a1c8-1105edaa1196)
-
+![image](https://github.com/ASoldo/simplex/assets/1175537/c6949858-3140-478e-bfee-73ce3783d391)
 
 # Simplex
 
